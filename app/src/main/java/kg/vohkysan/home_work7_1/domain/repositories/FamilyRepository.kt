@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface FamilyRepository {
 
-    fun addFamily(family: Family) : Flow<Resource<Unit>>
+    suspend fun addFamily(family: Family)
 
     fun getFamily(): Flow<Resource<List<Family>>>
     fun getFamilyFromLast(): Flow<Resource<List<Family>>>
     fun getFamilySortByName(): Flow<Resource<List<Family>>>
 
-    fun updateFamily(family: Family) : Flow<Resource<Unit>>
+    suspend fun updateFamily(family: Family)
 
-    fun deleteFamily(family: Family) : Flow<Resource<Unit>>
+    suspend fun deleteFamily(family: Family)
 }

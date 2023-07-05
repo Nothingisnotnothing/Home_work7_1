@@ -8,6 +8,7 @@ import kg.vohkysan.home_work7_1.domain.usecases.AddFamilyUseCase
 import kg.vohkysan.home_work7_1.domain.usecases.GetFamilyUseCase
 import kg.vohkysan.home_work7_1.domain.utils.Resource
 import kg.vohkysan.home_work7_1.presentation.utils.UiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -24,7 +25,9 @@ class FamilyViewModel @Inject constructor(
     val getAllFamilyStates = _getAllFamilyStates.asStateFlow()
 
     fun addFamily(family: Family){
-        addFamilyUseCase.execute(family = family)
+        viewModelScope.launch(Dispatchers.IO) {
+            addFamilyUseCase.execute(family = family)
+        }
     }
 
     fun getAllFamily() {

@@ -15,18 +15,15 @@ import javax.inject.Inject
 
 class FamilyRepositoryImpl @Inject constructor(private val familyDao: FamilyDao) :
     FamilyRepository {
-    override fun addFamily(family: Family): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val data = familyDao.addFamily(family.toEntity())
-                emit(Resource.Success(data))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(e.localizedMessage ?: "unknown message")
-                )
-            }
-        }.flowOn(Dispatchers.IO)
+    override suspend fun addFamily(family: Family) {
+        familyDao.addFamily(family.toEntity())
+    }
+
+    override suspend fun updateFamily(family: Family){
+        familyDao.updateFamily(family.toEntity())    }
+
+    override suspend fun deleteFamily(family: Family){
+        familyDao.deleteFamily(family.toEntity())
     }
 
     override fun getFamily(): Flow<Resource<List<Family>>> {
@@ -67,34 +64,4 @@ class FamilyRepositoryImpl @Inject constructor(private val familyDao: FamilyDao)
             }
         }.flowOn(Dispatchers.IO)
     }
-
-    override fun updateFamily(family: Family): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val data = familyDao.updateFamily(family.toEntity())
-                emit(Resource.Success(data))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(e.localizedMessage ?: "unknown message")
-                )
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    override fun deleteFamily(family: Family): Flow<Resource<Unit>> {
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val data = familyDao.deleteFamily(family.toEntity())
-                emit(Resource.Success(data))
-            } catch (e: Exception) {
-                emit(
-                    Resource.Error(e.localizedMessage ?: "unknown message")
-                )
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-
 }

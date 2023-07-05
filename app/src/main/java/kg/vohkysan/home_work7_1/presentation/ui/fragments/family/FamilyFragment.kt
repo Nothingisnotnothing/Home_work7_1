@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +23,14 @@ import kotlinx.coroutines.launch
 class FamilyFragment : Fragment() {
     private lateinit var binding: FragmentFamilyBinding
     private val viewModel by viewModels<FamilyViewModel>()
-    private val adapter = FamilyAdapter()
+    private val adapter = FamilyAdapter(onClick = ::onClick)
+
+    private fun onClick(family: Family) {
+        findNavController().navigate(
+            R.id.navigation_detail,
+            bundleOf(KEY_FAMILY to family)
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +42,11 @@ class FamilyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClickListeners()
+        initOnClickListeners()
         viewModelListener()
     }
 
-    private fun setOnClickListeners() {
+    private fun initOnClickListeners() {
         with(binding) {
             btnSave.setOnClickListener {
                 viewModel.addFamily(
@@ -49,12 +57,6 @@ class FamilyFragment : Fragment() {
                         father = etFather.text.toString()
                     )
                 )
-                Toast.makeText(requireContext(), "item is add ${Family(
-                    id = (0..9999).random(),
-                    name = etName.text.toString(),
-                    mother = etMother.text.toString(),
-                    father = etFather.text.toString()
-                )}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -82,10 +84,13 @@ class FamilyFragment : Fragment() {
                         binding.progressbar.isVisible = false
                         binding.rvFamily.adapter = adapter
                         adapter.addTasks(it.data)
-                        Toast.makeText(requireContext(), "Error ${it.data}", Toast.LENGTH_SHORT)
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val KEY_FAMILY = "keyFamilyId"
     }
 }
