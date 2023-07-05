@@ -7,7 +7,7 @@ import kg.vohkysan.home_work7_1.data.models.FamilyEntity.Companion.FAMILY_TABLE
 
 @Entity(tableName = FAMILY_TABLE)
 data class FamilyEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     @ColumnInfo(name = "family_id")
     val id: Int,
     @ColumnInfo(name = "family_name")

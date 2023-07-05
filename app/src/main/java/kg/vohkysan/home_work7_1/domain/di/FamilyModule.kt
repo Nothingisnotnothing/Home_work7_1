@@ -1,4 +1,4 @@
-package kg.vohkysan.home_work7_1.di
+package kg.vohkysan.home_work7_1.domain.di
 
 import android.content.Context
 import androidx.room.Room
@@ -25,7 +25,7 @@ object FamilyModule {
         context = context,
         FamilyDataBase::class.java,
         "contact_db"
-    )
+    ).build()
 
     @Provides
     fun provideFamilyDao(familyDataBase: FamilyDataBase) = familyDataBase.familyDao()
