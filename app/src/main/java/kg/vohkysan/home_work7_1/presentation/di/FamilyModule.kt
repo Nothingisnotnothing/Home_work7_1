@@ -1,4 +1,4 @@
-package kg.vohkysan.home_work7_1.domain.di
+package kg.vohkysan.home_work7_1.presentation.di
 
 import android.content.Context
 import androidx.room.Room
@@ -7,9 +7,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kg.vohkysan.home_work7_1.data.local.FamilyDao
-import kg.vohkysan.home_work7_1.data.local.FamilyDataBase
-import kg.vohkysan.home_work7_1.data.repositories.FamilyRepositoryImpl
 import kg.vohkysan.home_work7_1.domain.repositories.FamilyRepository
 import javax.inject.Singleton
 
@@ -23,15 +20,15 @@ object FamilyModule {
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(
         context = context,
-        FamilyDataBase::class.java,
+        kg.vohkysan.home_work7_1.data.local.FamilyDataBase::class.java,
         "contact_db"
     ).build()
 
     @Provides
-    fun provideFamilyDao(familyDataBase: FamilyDataBase) = familyDataBase.familyDao()
+    fun provideFamilyDao(familyDataBase: kg.vohkysan.home_work7_1.data.local.FamilyDataBase) = familyDataBase.familyDao()
 
     @Provides
-    fun provideFamilyRepository(familyDao: FamilyDao): FamilyRepository {
-        return FamilyRepositoryImpl(familyDao = familyDao)
+    fun provideFamilyRepository(familyDao: kg.vohkysan.home_work7_1.data.local.FamilyDao): FamilyRepository {
+        return kg.vohkysan.home_work7_1.data.repositories.FamilyRepositoryImpl(familyDao = familyDao)
     }
 }

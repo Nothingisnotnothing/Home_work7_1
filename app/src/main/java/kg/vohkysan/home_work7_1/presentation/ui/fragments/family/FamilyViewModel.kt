@@ -7,6 +7,7 @@ import kg.vohkysan.home_work7_1.domain.models.Family
 import kg.vohkysan.home_work7_1.domain.usecases.AddFamilyUseCase
 import kg.vohkysan.home_work7_1.domain.usecases.GetFamilyUseCase
 import kg.vohkysan.home_work7_1.domain.utils.Resource
+import kg.vohkysan.home_work7_1.presentation.base.BaseViewModel
 import kg.vohkysan.home_work7_1.presentation.utils.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,36 +18,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FamilyViewModel @Inject constructor(
-    private val getFamilyUseCase: GetFamilyUseCase,
-    private val addFamilyUseCase: AddFamilyUseCase,
-) : ViewModel() {
+    private val getFamilyUseCase: kg.vohkysan.home_work7_1.domain.usecases.GetFamilyUseCase,
+    private val addFamilyUseCase: kg.vohkysan.home_work7_1.domain.usecases.AddFamilyUseCase,
+) : BaseViewModel() {
 
-    private val _getAllFamilyStates = MutableStateFlow<UiState<List<Family>>>(UiState.EmptyState())
+    private val _getAllFamilyStates = MutableStateFlow<UiState<List<kg.vohkysan.home_work7_1.domain.models.Family>>>(UiState.EmptyState())
     val getAllFamilyStates = _getAllFamilyStates.asStateFlow()
 
-    fun addFamily(family: Family){
+    fun addFamily(family: kg.vohkysan.home_work7_1.domain.models.Family){
         viewModelScope.launch(Dispatchers.IO) {
             addFamilyUseCase.execute(family = family)
         }
     }
 
-    fun getAllFamily() {
-        viewModelScope.launch {
-            getFamilyUseCase.execute().collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        _getAllFamilyStates.value = UiState.Loading()
-                    }
-
-                    is Resource.Success -> {
-                        _getAllFamilyStates.value = UiState.Success(it.data as List<Family>)
-                    }
-
-                    is Resource.Error -> {
-                        _getAllFamilyStates.value = UiState.Error(it.message ?: "")
-                    }
-                }
-            }
-        }
+    fun family() {
+        getFamilyUseCase.execute().collectData(_getAllFamilyStates)
     }
 }

@@ -8,9 +8,9 @@ import kg.vohkysan.home_work7_1.databinding.ItemFamilyBinding
 import kg.vohkysan.home_work7_1.domain.models.Family
 
 class FamilyAdapter(
-    private val onClick: (family : Family) -> Unit
+    private val onClick: (family : kg.vohkysan.home_work7_1.domain.models.Family) -> Unit
 ) : Adapter<FamilyAdapter.FamilyViewHolder>() {
-    private val familyList = arrayListOf<Family>()
+    private val familyList = arrayListOf<kg.vohkysan.home_work7_1.domain.models.Family>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FamilyViewHolder {
         return FamilyViewHolder(
@@ -22,13 +22,13 @@ class FamilyAdapter(
         )
     }
 
-    fun addTasks(family: List<Family>) {
+    fun addFamily(family: List<kg.vohkysan.home_work7_1.domain.models.Family>) {
         familyList.clear()
         familyList.addAll(family)
         notifyDataSetChanged()
     }
 
-    fun getFamily(position : Int): Family{
+    fun getFamily(position : Int): kg.vohkysan.home_work7_1.domain.models.Family {
         return familyList[position]
     }
 
@@ -41,7 +41,7 @@ class FamilyAdapter(
     inner class FamilyViewHolder(private val binding: ItemFamilyBinding) :
         ViewHolder(binding.root) {
 
-        fun onBind(family: Family) {
+        fun onBind(family: kg.vohkysan.home_work7_1.domain.models.Family) {
             with(binding){
                 tvName.text = family.name
                 tvMother.text = family.mother

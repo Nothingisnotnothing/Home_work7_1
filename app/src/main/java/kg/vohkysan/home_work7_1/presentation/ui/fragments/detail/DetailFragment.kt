@@ -35,7 +35,7 @@ class DetailFragment : Fragment() {
 
     private fun getFamily() {
         with(binding){
-            val family = (arguments?.getSerializable(KEY_FAMILY)) as Family
+            val family = (arguments?.getSerializable(KEY_FAMILY)) as kg.vohkysan.home_work7_1.domain.models.Family
             etName.setText(family.name)
             etMother.setText(family.mother)
             etFather.setText(family.father)
@@ -44,11 +44,11 @@ class DetailFragment : Fragment() {
 
     private fun initClickListeners() {
         with(binding) {
-            val family = (arguments?.getSerializable(KEY_FAMILY)) as Family
+            val family = (arguments?.getSerializable(KEY_FAMILY)) as kg.vohkysan.home_work7_1.domain.models.Family
             btnUpdate.setOnClickListener {
                 viewModel.viewModelScope.launch {
                     viewModel.updateFamily(
-                        Family(
+                        kg.vohkysan.home_work7_1.domain.models.Family(
                             id = family.id,
                             name = binding.etName.text.toString(),
                             mother = binding.etMother.text.toString(),
